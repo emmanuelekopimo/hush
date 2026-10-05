@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300" fill="none">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="280" cy="150" rx="250" ry="140" fill="url(#g)"/>
+  <circle cx="280" cy="150" r="118" stroke="#2a2a2a" stroke-width="1.5"/>
+  <circle cx="280" cy="150" r="86" stroke="#3a3a3a" stroke-width="1.5" stroke-dasharray="4 8"/>
+  <circle cx="280" cy="150" r="56" fill="#0d0d0d" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="280" cy="140" r="12" fill="#ffffff"/>
+  <path d="M274 148h12l4 24h-20z" fill="#ffffff"/>
+  <g font-family="monospace" font-size="12" fill="#bdbdbd">
+    <rect x="40" y="52" width="150" height="34" rx="17" fill="#0d0d0d" stroke="#2f2f2f"/>
+    <text x="58" y="73">DATABASE_URL=&#8226;&#8226;&#8226;&#8226;</text>
+    <rect x="384" y="40" width="140" height="34" rx="17" fill="#0d0d0d" stroke="#2f2f2f"/>
+    <text x="402" y="61">JWT_SECRET=&#8226;&#8226;&#8226;</text>
+    <rect x="30" y="206" width="160" height="34" rx="17" fill="#0d0d0d" stroke="#2f2f2f"/>
+    <text x="48" y="227">API_KEY=&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</text>
+    <rect x="378" y="222" width="150" height="34" rx="17" fill="#0d0d0d" stroke="#2f2f2f"/>
+    <text x="396" y="243">SMTP_PASS=&#8226;&#8226;&#8226;</text>
+  </g>
+  <path d="M190 69 C 230 80, 236 110, 228 126" stroke="#3a3a3a" stroke-width="1.5"/>
+  <path d="M384 57 C 340 66, 336 100, 334 118" stroke="#3a3a3a" stroke-width="1.5"/>
+  <path d="M190 223 C 228 216, 232 196, 232 180" stroke="#3a3a3a" stroke-width="1.5"/>
+  <path d="M378 239 C 338 232, 334 204, 330 186" stroke="#3a3a3a" stroke-width="1.5"/>
+</svg>
