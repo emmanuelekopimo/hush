@@ -16,7 +16,7 @@ export function ImportForm({ action, environment }: { action: Action; environmen
       {state.ok && state.message && <div className="notice ok" role="status">{state.message}</div>}
       {state.message && !state.ok && <div className="notice bad" role="alert">{state.message}</div>}
       <Field label="Import into" name="import-environment" error={e.environment}>
-        <select id="import-environment" name="environment" className="select" defaultValue={v.environment || environment}>
+        <select key={`env-${v.environment || environment}`} id="import-environment" name="environment" className="select" defaultValue={v.environment || environment}>
           {ENVIRONMENTS.map((env) => (
             <option key={env} value={env}>{env}</option>
           ))}

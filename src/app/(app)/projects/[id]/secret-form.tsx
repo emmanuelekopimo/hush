@@ -20,7 +20,7 @@ export function SecretForm({ action, environment }: { action: Action; environmen
           <input id="key" name="key" className="input mono" placeholder="API_KEY" autoComplete="off" defaultValue={v.key} {...errorProps("key", e.key)} />
         </Field>
         <Field label="Environment" name="environment" error={e.environment}>
-          <select id="environment" name="environment" className="select" defaultValue={v.environment || environment} {...errorProps("environment", e.environment)}>
+          <select key={`env-${v.environment || environment}`} id="environment" name="environment" className="select" defaultValue={v.environment || environment} {...errorProps("environment", e.environment)}>
             {ENVIRONMENTS.map((env) => (
               <option key={env} value={env}>{env}</option>
             ))}

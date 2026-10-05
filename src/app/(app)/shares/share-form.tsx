@@ -24,7 +24,7 @@ export function ShareForm({ options, selected }: { options: Option[]; selected?:
         </div>
       )}
       <Field label="Secret" name="secretId" error={e.secretId}>
-        <select id="secretId" name="secretId" className="select" defaultValue={state.values?.secretId ?? (selected ? String(selected) : "")} {...errorProps("secretId", e.secretId)}>
+        <select key={`s-${state.values?.secretId ?? selected ?? ""}`} id="secretId" name="secretId" className="select" defaultValue={state.values?.secretId ?? (selected ? String(selected) : "")} {...errorProps("secretId", e.secretId)}>
           <option value="">Pick a secret</option>
           {options.map((o) => (
             <option key={o.id} value={o.id}>{o.projectName} / {o.environment} / {o.key}</option>
@@ -33,14 +33,14 @@ export function ShareForm({ options, selected }: { options: Option[]; selected?:
       </Field>
       <div className="form-row">
         <Field label="Expires after" name="expiry" error={e.expiry}>
-          <select id="expiry" name="expiry" className="select" defaultValue={state.values?.expiry ?? "24h"}>
+          <select key={`e-${state.values?.expiry ?? ""}`} id="expiry" name="expiry" className="select" defaultValue={state.values?.expiry ?? "24h"}>
             <option value="1h">1 hour</option>
             <option value="24h">24 hours</option>
             <option value="7d">7 days</option>
           </select>
         </Field>
         <Field label="Can be opened" name="maxViews" error={e.maxViews}>
-          <select id="maxViews" name="maxViews" className="select" defaultValue={state.values?.maxViews ?? "1"}>
+          <select key={`m-${state.values?.maxViews ?? ""}`} id="maxViews" name="maxViews" className="select" defaultValue={state.values?.maxViews ?? "1"}>
             <option value="1">Once</option>
             <option value="2">2 times</option>
             <option value="3">3 times</option>
