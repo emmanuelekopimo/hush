@@ -1,0 +1,14 @@
+import { defineConfig } from "vitest/config";
+import { fileURLToPath } from "node:url";
+
+export default defineConfig({
+  resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
+  test: {
+    environment: "node",
+    include: ["tests/unit/**/*.test.ts", "tests/integration/**/*.test.ts"],
+    fileParallelism: false,
+    testTimeout: 30_000,
+    hookTimeout: 60_000,
+    env: { SESSION_SECRET: "test-session-secret-0123456789abcdef", HUSH_TODAY: "2026-10-06" },
+  },
+});
