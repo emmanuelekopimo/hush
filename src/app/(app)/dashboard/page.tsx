@@ -56,7 +56,7 @@ export default async function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="grid grid-2">
+        <div className="grid grid-2" data-testid="stat-grid">
           <div className="card stat"><span className="label"><KeyRound size={15} />Secrets</span><span className="value">{health.total}</span></div>
           <div className="card stat"><span className="label"><FolderLock size={15} />Projects</span><span className="value">{projects.length}</span></div>
           <div className="card stat"><span className="label"><Link2 size={15} />Active links</span><span className="value">{activeShares}</span></div>
@@ -89,7 +89,7 @@ export default async function Dashboard() {
             </div>
           )}
         </div>
-        <div className="card">
+        <div className="card" data-testid="activity-card">
           <div className="card-head">
             <h2>Recent activity</h2>
             <Link href="/activity" className="small muted">See all</Link>

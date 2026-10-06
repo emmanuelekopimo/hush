@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hush
 
-## Getting Started
+A simple env manager and vault for project secrets. Hush keeps your development, staging and production variables encrypted, tells you which keys are due for rotation, and lets you share a secret with a link that works once.
 
-First, run the development server:
+**Live:** https://hush-production-70be.up.railway.app
+**Demo login:** `demo@hush.ng` / `demo1234` (pre-filled on the sign-in page)
+
+![Hush dashboard](docs/screenshots/dashboard.png)
+
+## Features
+
+- **Encrypted vault.** Projects with development, staging and production variables, encrypted with AES-256-GCM. Each value is bound to its project, environment and key name, so a copied ciphertext cannot be decrypted in another row.
+- **Rotation tracking.** Rotation periods and expiry dates. Every secret is healthy, due soon, overdue or expired, and the vault gets a health score.
+- **Reuse detection.** Flags the same value stored in more than one place without comparing plaintext.
+- **.env import and export.** Paste a .env file (bad lines are reported with line numbers) or download an environment.
+- **One-time share links.** Links expire and stop working after a set number of views. Only a hash of the link is stored.
+- **Leak scanner.** Finds API keys, tokens, private keys and passwords in pasted code. Runs in the browser.
+- **Image scrambler.** Scrambles an image with a key; the same key restores it exactly.
+- **File sealing.** Encrypts any file with a passphrase in the browser (PBKDF2 and AES-GCM).
+- **Secret generator** with an entropy estimate.
+- **Activity log** of sign-ins, failed sign-ins, reveals, exports and shares, with lockout after 5 failed sign-ins in 15 minutes.
+
+Full documentation with annotated screenshots: [docs/Hush-Documentation.pdf](docs/Hush-Documentation.pdf).
+
+## Quick start
+
+Requires Node.js 20.9+ and PostgreSQL.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+service postgresql start
+createdb hush
+cp .env.example .env      # set DATABASE_URL and SESSION_SECRET
+npm install
+npm run db:migrate
+npm run db:seed
+npm run dev               # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `HUSH_TODAY=YYYY-MM-DD` in `.env` to pin the date for demos and tests.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` / `npm start` | Build and serve for production |
+| `npm run typecheck` / `npm run lint` | TypeScript and ESLint checks |
+| `npm run db:generate` | Create a migration after changing `src/db/schema.ts` |
+| `npm run db:migrate` | Apply migrations (creates the database if it is missing) |
+| `npm run db:seed` | Reset and load demo data dated relative to today |
+| `npm run db:seed:if-empty` | Seed only when there are no users (used on Railway) |
+| `npm test` | Unit and integration tests (needs a `hush_test` database) |
+| `npm run test:e2e` | Playwright tests on desktop and Pixel 7 (needs `npm run build` and a `hush_e2e` database) |
+| `npm run docs` | Rebuild `docs/Hush-Documentation.pdf` (needs `npm run build` and a `hush_docs` database) |
 
-## Learn More
+## Tests
 
-To learn more about Next.js, take a look at the following resources:
+| Suite | Tests |
+| --- | --- |
+| Unit (Vitest) | 61 |
+| Integration (Vitest, real PostgreSQL) | 18 |
+| End-to-end desktop (Playwright) | 17 |
+| End-to-end mobile (Playwright, Pixel 7) | 2 |
+| **Total** | **98** |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Next.js 16 (App Router, Server Components, Server Actions), React 19, TypeScript (strict), Drizzle ORM with PostgreSQL, Zod, bcryptjs, jose, lucide-react, DiceBear, Fontsource, Vitest and Playwright. Deployed on Railway with `railway.json`: build with `npm run build`; start runs migrations, seeds only an empty database, then `next start -H 0.0.0.0`; health check at `/api/health`.
 
-## Deploy on Vercel
+## Project layout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/lib        pure business rules (crypto, rotation, envfile, scanner, scramble, seal, ...)
+src/server     database services (vault, shares, users, audit, seed)
+src/app        pages, Server Actions, /api/health and the .env export route
+src/db         Drizzle schema
+drizzle        SQL migrations
+scripts        migrate, seed and the documentation builder
+tests          unit, integration and e2e
+```
